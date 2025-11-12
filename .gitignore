@@ -1,4 +1,4 @@
-# OS generated files
+# OS
 .DS_Store
 .DS_Store?
 ._*
@@ -7,70 +7,92 @@
 ehthumbs.db
 Thumbs.db
 
-# IDEs
+# IDE / Editor
 .vscode/
 .idea/
 *.swp
 *.swo
+*.sublime-project
+*.sublime-workspace
 
-# Frontend - Logs
-frontend/logs
-frontend/*.log
-frontend/npm-debug.log*
-frontend/yarn-debug.log*
-frontend/yarn-error.log*
-frontend/pnpm-debug.log*
-frontend/lerna-debug.log*
+# Node / Frontend (web/)
+web/node_modules/
+web/dist/
+web/dist-ssr/
+web/build/
+web/.parcel-cache/
+web/.vite/
+web/.cache/
+web/*.log
+web/.env
+web/.env.*
+web/*.local
 
-# Frontend - Dependencies and build
-frontend/node_modules/
-frontend/dist/
-frontend/dist-ssr/
-frontend/*.local
+# Frontend lock / logs
+web/npm-debug.log*
+web/yarn-debug.log*
+web/yarn-error.log*
+web/pnpm-debug.log*
+web/lerna-debug.log*
 
-# Frontend - Environment variables
-frontend/.env
-frontend/.env.local
-frontend/.env.development.local
-frontend/.env.test.local
-frontend/.env.production.local
+# Go (backend)
+# build artifacts
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+# coverage / profiler
+coverage.out
+*.coverprofile
+*.prof
+# vendor / tmp / build dirs
+/vendor/
+router/vendor/
+router/tmp/
+router/dist/
+# Go workspace files
+go.work
+go.work.sum
 
-# Backend - Go
-backend/*.exe
-backend/*.exe~
-backend/*.dll
-backend/*.so
-backend/*.dylib
-backend/*.test
-backend/*.out
-backend/vendor/
-backend/tmp/
-backend/dist/
-
-# Backend - Environment variables
-backend/.env
-
-# Common environment files
+# Environment / secrets
 .env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+.env.*
+router/.env
+web/.env
 
-# Logs (global)
-logs
+# Logs
+logs/
 *.log
 
-# TLS certificates (for development)
+# TLS / certs
 *.crt
 *.key
 *.pem
 
-# Database
+# Databases
 *.db
 *.sqlite
 *.sqlite3
 
-# Go workspace
-go.work
-go.work.sum
+# Containers / Misc
+tmp/
+*.pid
+
+# Optional: generated web artifacts and static build outputs
+public/
+web/public/
+web/assets/
+
+# CI / tooling
+.idea/
+.github/.DS_Store
+
+# Keep Dockerfiles in repo, but ignore local Docker metadata if any
+docker-compose.override.yml
+
+# Local binaries
+bin/
+_build/
