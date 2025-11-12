@@ -7,5 +7,5 @@ BN256のポートフォリオサイトV2のリポジトリです。
 CI/CDなどを新たに取り入れ、バックエンドを含んだ開発を進めてみたい。
 
 ## 関連
-bn256.dev
-github.com/blancnoir256/Portfolio-V2-infra
+- [bn256.dev](https://bn256.dev)
+- [Portfolio-V2-infra](https://github.com/blancnoir256/Portfolio-V2-infra)
