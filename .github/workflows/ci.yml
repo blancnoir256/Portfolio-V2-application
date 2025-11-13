@@ -1,0 +1,12 @@
+name: GitHub Actions Test
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  echo_test_message:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Tsis is a test message!"
