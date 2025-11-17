@@ -1,61 +1,52 @@
-# フロントエンドのビルドステージ
-FROM node:20-alpine AS frontend-builder
-WORKDIR /app
+# ---------- Frontend build ----------
+FROM node:20-slim AS frontend-builder
+WORKDIR /app/web
 
-# パッケージをインストール
-COPY ../frontend/package*.json ./
+# 依存解決
+COPY ./web/package*.json ./
+ENV CI=true
 RUN npm ci
 
-# ソースコードをコピーしてビルド
-COPY ../frontend/ .
+# ソースコピー＆ビルド
+COPY ./web/ .
 RUN npm run build
 
+# ---------- Backend build ----------
+FROM golang:1.21-alpine AS backend-router-builder
+WORKDIR /app/backend-router
 
-# バックエンドのビルドステージ
-FROM golang:1.21-alpine AS backend-builder
-WORKDIR /app
-
-# 依存関係をインストール
-COPY go.mod go.sum ./
+# 依存取得
+COPY ./go.mod ./go.sum ./
 RUN go mod download
 
-# ソースコードをコピーしてビルド
-COPY *.go ./
-RUN CGO_ENABLED=0 GOOS=linux go build -o server .
+# ソースコピー
+COPY ./main.go ./
+COPY ./api/ ./api/
+COPY ./router/ ./router/
 
+# 静的ビルド (必要に応じて -s -w)
+ENV CGO_ENABLED=0
+RUN go build -trimpath -ldflags="-s -w" -o server .
 
-# 実行用の最終イメージ
+# ---------- Runtime image ----------
 FROM alpine:3.18
 WORKDIR /app
 
-# 必要なパッケージをインストール
-RUN apk --no-cache add ca-certificates tzdata
+ENV TZ=Asia/Tokyo \
+    APP_PORT=8080
 
-# タイムゾーン設定
-ENV TZ=Asia/Tokyo
+# タイムゾーンと証明書
+RUN apk add --no-cache tzdata ca-certificates && \
+    cp /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone && \
+    addgroup -g 1000 appgroup && \
+    adduser -u 1000 -G appgroup -s /bin/sh -D appuser
 
-# 必要なファイルをコピー
-COPY --from=backend-builder /app/server ./
-COPY --from=frontend-builder /app/dist ./public
+# コピーして持ってくる
+COPY --from=backend-router-builder --chown=appuser:appuser /app/backend-router/server ./server
+COPY --from=frontend-builder    --chown=appuser:appuser /app/web/dist ./public
 
-# セキュリティのためnon-rootユーザーを作成
-RUN addgroup -g 1000 appgroup && \
-    adduser -u 1000 -G appgroup -s /bin/sh -D appuser && \
-    chown -R appuser:appgroup /app
-
-# 環境変数を設定
-ENV APP_DIR=/app
-ENV SECRET_DIR=/app/secrets
-
-# 必要なディレクトリを作成
-RUN mkdir -p /app/secrets && \
-    chown -R appuser:appgroup /app/secrets
-
-# non-rootユーザーに切り替え
 USER appuser
 
-# ポート設定
-EXPOSE 8080
+EXPOSE ${APP_PORT}
 
-# サーバー起動
 CMD ["./server"]
