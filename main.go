@@ -27,10 +27,17 @@ func main() {
 		os.Exit(1)
 	}
 
+	distDir := os.Getenv("DIST_DIR")
+	if distDir == "" {
+		fmt.Println("環境変数 DIST_DIR が設定されていません。デフォルトディレクトリ /dist を使用します。")
+		// デフォルトディレクトリ
+		distDir = "/dist"
+	}
+
 	e := echo.New()
 
 	api.ApiRouting(e)
-	router.Routing(e)
+	router.Routing(e, distDir)
 
 	// サーバーを起動
 	e.Logger.Fatal(e.Start(fmt.Sprintf(":%d", portNum)))

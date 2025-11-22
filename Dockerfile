@@ -33,7 +33,8 @@ FROM alpine:3.18
 WORKDIR /app
 
 ENV TZ=Asia/Tokyo \
-    APP_PORT=8080
+    APP_PORT=8080 \
+    DIST_DIR=/app/public
 
 # タイムゾーンと証明書
 RUN apk add --no-cache tzdata ca-certificates && \
