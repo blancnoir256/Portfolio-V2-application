@@ -12,7 +12,7 @@ COPY ./web/ .
 RUN npm run build
 
 # ---------- Backend build ----------
-FROM golang:1.21-alpine AS backend-router-builder
+FROM golang:1.25-alpine AS backend-router-builder
 WORKDIR /app/backend-router
 
 # 依存取得
