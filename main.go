@@ -8,10 +8,10 @@ import (
 	"github.com/blancnoir256/Portfolio-V2-application/api"
 	"github.com/blancnoir256/Portfolio-V2-application/router"
 	"github.com/labstack/echo"
-	"github.com/labstack/echo/middleware"
 )
 
 func main() {
+
 	// 環境変数 APP_PORT を取得
 	port := os.Getenv("APP_PORT")
 	if port == "" {
@@ -28,9 +28,6 @@ func main() {
 	}
 
 	e := echo.New()
-
-	e.Use(middleware.Logger())
-	e.Use(middleware.Recover())
 
 	api.ApiRouting(e)
 	router.Routing(e)
