@@ -7,7 +7,7 @@ import (
 
 	"github.com/blancnoir256/Portfolio-V2-application/api"
 	"github.com/blancnoir256/Portfolio-V2-application/router"
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 )
 
 func main() {
