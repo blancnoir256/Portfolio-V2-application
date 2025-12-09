@@ -82,8 +82,8 @@ tmp/
 *.pid
 
 # Optional: generated web artifacts and static build outputs
-public/
-web/public/
+# public/
+# web/public/
 web/assets/
 
 # CI / tooling
