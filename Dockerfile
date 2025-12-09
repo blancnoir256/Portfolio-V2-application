@@ -45,6 +45,7 @@ RUN apk add --no-cache tzdata ca-certificates && \
 # コピーして持ってくる
 COPY --from=backend-router-builder --chown=appuser:appuser /app/backend-router/server ./server
 COPY --from=frontend-builder    --chown=appuser:appuser /app/web/dist ./public
+COPY --from=frontend-builder    --chown=appuser:appuser /app/web/public ./public
 
 USER appuser
 
