@@ -17,7 +17,8 @@ jobs:
               uses: actions/checkout@v6
               with:
                 fetch-depth: 0
-            - name: Get labelS
+                token: ${{ secrets.PAT }}
+            - name: Get labels
               id: get_labels
               run: |
                 LABELS="${{ join(github.event.pull_request.labels.*.name, ',')}}"
