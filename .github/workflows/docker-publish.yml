@@ -52,3 +52,27 @@ jobs:
           subject-name: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME}}
           subject-digest: ${{ steps.push.outputs.digest }}
           push-to-registry: true
+
+      - name: Update Manifest Repository
+        uses: actions/checkout@v6
+        with:
+          repository: blancnoir256/Portfolio-V2-infra
+          token: ${{ secrets.PAT }}
+          path: manifest-repo
+
+      - name: Update Image Tag using Kustomize
+        run: |
+          cd manifest-repo/manifest
+
+          kustomize edit set image bn256-portfolio=ghcr.io/${{ github.repository }}:${{ github.ref_name }}
+          
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+          if git diff --quiet; then
+            echo "No changes"
+          else
+            git add kustomization.yaml
+            git commit -m "Update image tag to ${{ github.ref_name }}"
+            git push origin main
+          fi
