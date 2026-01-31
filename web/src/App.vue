@@ -1,10 +1,11 @@
 <script setup lang="ts"></script>
 
 <template>
-  <h1>This is BN256's portfolio site.</h1>
+  <h1>BN256 ポートフォリオサイト</h1>
   <p>
-    メンテナンス中です。
-    目下制作中なので今しばらくお待ち下さい。
+    開発再開しました。<br>
+    このバージョンからはCI/CDを導入し、argoCDでのデプロイを行っています。<br>
+    ソースコードは以下のgithubリポジトリから確認できます。<br />
     <a href="https://github.com/blancnoir256/Portfolio-V2-application">githubリポジトリ</a>
   </p>
 </template>
